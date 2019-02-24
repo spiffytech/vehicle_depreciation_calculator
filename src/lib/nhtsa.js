@@ -23,7 +23,11 @@ async function getModelsForMake(make, fetcher = axios, { NHTSA_URL } = config) {
   ));
 
   // Rather than 404ing on unknown makes, the API returns an empty array
-  if (response.data.Results.length === 0) throw new Error('Invalid vehicle make');
+  if (response.data.Results.length === 0) {
+    const err = new Error('Invalid vehicle make');
+    err.code = 404;
+    throw err;
+  }
 
   return response.data.Results.map((make) => make.Model_Name);
 }

@@ -17,7 +17,7 @@ describe('getModelsForMake', () => {
     const mock = jest.fn(() => ({
       data: {
         Results: [
-          // Real data taken from the API
+          // Real data from a real API response
           {
             Make_ID: 474,
             Make_Name: 'Honda',
@@ -52,5 +52,15 @@ describe('getModelsForMake', () => {
     return expect(
       nhtsa.getModelsForMake('hondaaaaaa', {get: mock})
     ).rejects.toThrow();
+  });
+
+  test('throws errors that include an error code', async () => {
+    const mock = jest.fn(() => ({data: {Results: []}}));
+    try {
+      await nhtsa.getModelsForMake('hondaaaaa', {get: mock});
+      expect(true).toBe(false);
+    } catch (ex) {
+      expect(ex.code).toBe(404);
+    }
   });
 });
