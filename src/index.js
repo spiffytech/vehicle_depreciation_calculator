@@ -11,10 +11,12 @@ app.get('/value', async (req, res) => {
   try {
     const schema = Joi.object().keys({
       make: Joi.string().required(),
+      model: Joi.string().required(),
     });
     const validation = Joi.validate(
       {
         make: req.query.make,
+        model: req.query.model,
       },
       schema,
     );
