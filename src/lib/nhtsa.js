@@ -20,7 +20,7 @@ const config = require('./config');
 async function getModelsForMake(make, fetcher = axios, { NHTSA_URL } = config) {
   const response = await fetcher.get(urlJoin(
     NHTSA_URL,
-    `vehicles/getmodelsformake/${make.toLowerCase()}?format=json`
+    `vehicles/getmodelsformake/${encodeURIComponent(make.toLowerCase())}?format=json`
   ));
 
   // Rather than 404ing on unknown makes, the API returns an empty array
