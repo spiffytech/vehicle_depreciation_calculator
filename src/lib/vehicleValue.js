@@ -27,9 +27,9 @@ module.exports.ageDepreciation = ageDepreciation;
  * @param {number} value The unmodified value of the vehicle
  */
 function milageageDepreciation(mileage, value) {
-  const applicableMileage = Math.min(mileage, config.MAX_DEPRECIATION_MILEAGE)
+  const applicableMileage = Math.min(mileage, config.MAX_DEPRECIATION_MILEAGE);
   const depreciationMultiplier =
-    parseFloat(config.MILEAGE_DEPRECIATION_MULTIPLIER) * Math.floor(applicableMileage / 1000)
+    parseFloat(config.MILEAGE_DEPRECIATION_MULTIPLIER) * Math.floor(applicableMileage / 1000);
   return value - (value * depreciationMultiplier);
 }
 module.exports.milageageDepreciation = milageageDepreciation;
@@ -46,7 +46,7 @@ function ownersPenalty(owners, value) {
   }
   return value;
 }
-module.exports.ownnersPenalty = ownersPenalty
+module.exports.ownnersPenalty = ownersPenalty;
 
 /**
  * If the vehicle has had no owners, reward it with bonus value. This should be
@@ -66,7 +66,7 @@ module.exports.ownersBonus = ownersBonus;
  * @param {number} value The current value of the vehicle
  */
 function collisionsPenalty(collisions, value) {
-  const applicableCollisions = Math.min(collisions, parseInt(config.MAX_COLLISIONS)); 
+  const applicableCollisions = Math.min(collisions, parseInt(config.MAX_COLLISIONS));
   const penalty = applicableCollisions * parseFloat(config.COLLISIONS_PENALTY);
   return value - (value * penalty);
 }
@@ -77,7 +77,7 @@ module.exports.collisionsPenalty = collisionsPenalty;
  * @param {number} value 
  * @param {{age: number, mileage?: number, owners: number, collisions?: number}} param1 
  */
-function calcValue(value, {age, mileage, owners, collisions}) {
+function calcValue(value, { age, mileage, owners, collisions }) {
   const ageDepreciated = ageDepreciation(age, value);
   const mileageDepreciated =
     mileage ? milageageDepreciation(mileage, ageDepreciated) : ageDepreciated;

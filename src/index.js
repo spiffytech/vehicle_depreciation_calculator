@@ -34,8 +34,6 @@ app.get('/value', async (req, res) => {
       schema,
     );
 
-    console.log(validation.value);
-
     if (validation.error) {
       res.statusCode = 400;
       res.send({error: validation.error.details.map((detail) => detail.message)});
@@ -49,7 +47,7 @@ app.get('/value', async (req, res) => {
     }
 
     const {basePrice, age, mileage, owners, collisions} = validation.value;
-    const value = libVehicleValue.calcValue(basePrice, {age, mileage, owners, collisions})
+    const value = libVehicleValue.calcValue(basePrice, {age, mileage, owners, collisions});
 
     res.send({value});
   } catch (ex) {
@@ -65,4 +63,5 @@ app.get('/value', async (req, res) => {
   }
 });
 
+// eslint-disable-next-line no-console
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));

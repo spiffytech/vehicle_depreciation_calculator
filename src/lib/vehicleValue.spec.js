@@ -54,7 +54,7 @@ describe('mileageDepreciation', () => {
       libVehicleValue.milageageDepreciation(151000, originalValue);
     const depreciationAmount = .002 * 150;
     const expectedValue = originalValue - (originalValue * depreciationAmount);
-    expect(depreciatedValue).toBe(expectedValue)
+    expect(depreciatedValue).toBe(expectedValue);
   });
 });
 
@@ -104,8 +104,8 @@ describe('calcValue', () => {
   test('returns the original value if the vehicle is brand new, first owner', () => {
     const originalValue = 10000;
     const actualValue = libVehicleValue.calcValue(
-      originalValue, 
-      {age: 0, mileage: 0, owners: 1, collisions: 0},
+      originalValue,
+      { age: 0, mileage: 0, owners: 1, collisions: 0 },
     );
 
     expect(actualValue).toBe(originalValue);
@@ -114,8 +114,8 @@ describe('calcValue', () => {
   test('issues the vehicle a bonus if it\'s had no owners', () => {
     const originalValue = 10000;
     const actualValue = libVehicleValue.calcValue(
-      originalValue, 
-      {age: 0, mileage: 0, owners: 0, collisions: 0},
+      originalValue,
+      { age: 0, mileage: 0, owners: 0, collisions: 0 },
     );
 
     expect(actualValue).toBe(11000);
@@ -124,8 +124,8 @@ describe('calcValue', () => {
   test('ignores mileage and collisions if they aren\'t specified', () => {
     const originalValue = 10000;
     const actualValue = libVehicleValue.calcValue(
-      originalValue, 
-      {age: 0, owners: 1},
+      originalValue,
+      { age: 0, owners: 1 },
     );
 
     expect(actualValue).toBe(originalValue);
@@ -138,7 +138,7 @@ describe('calcValue', () => {
     const collisions = 2;
     const originalValue = 10000;
     const expectedValue =
-      originalValue * 
+      originalValue *
       (1 - (.005 * age)) *
       (1 - ((mileage / 1000) * .002)) *
       (1 - .25) *  // owners
@@ -146,7 +146,7 @@ describe('calcValue', () => {
 
     expect(libVehicleValue.calcValue(
       originalValue,
-      {age, mileage, owners, collisions}, 
+      { age, mileage, owners, collisions },
     )).toBe(expectedValue);
   });
-})
+});
