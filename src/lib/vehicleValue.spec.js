@@ -28,19 +28,19 @@ describe('ageDepreciation', () => {
   });
 
   test('always returns a positive value', () => {
-    jsc.assertForall(jsc.nat(300), jsc.nat(60000), (age, value) => {
+    jsc.assertForall(jsc.nat(300), jsc.number(0, 60000), (age, value) => {
       return libVehicleValue.ageDepreciation(age, value) >= 0;
     });
   });
 
   test('never returns more than the original value', () => {
-    jsc.assertForall(jsc.nat(300), jsc.nat(60000), (age, value) => {
+    jsc.assertForall(jsc.nat(300), jsc.number(0, 60000), (age, value) => {
       return libVehicleValue.ageDepreciation(age, value) <= value;
     });
   });
 
   test('never removes more than 60% of the car\'s value', () => {
-    jsc.assertForall(jsc.nat(300), jsc.nat(60000), (age, value) => {
+    jsc.assertForall(jsc.nat(300), jsc.number(0, 60000), (age, value) => {
       return libVehicleValue.ageDepreciation(age, value) >= value * 0.4;
     });
   });
@@ -78,19 +78,19 @@ describe('mileageDepreciation', () => {
   });
 
   test('always returns a positive value', () => {
-    jsc.assertForall(jsc.nat(1000000), jsc.nat(60000), (mileage, value) => {
+    jsc.assertForall(jsc.nat(1000000), jsc.number(0, 60000), (mileage, value) => {
       return libVehicleValue.mileageDepreciation(mileage, value) >= 0;
     });
   });
 
   test('never returns more than the original value', () => {
-    jsc.assertForall(jsc.nat(1000000), jsc.nat(60000), (mileage, value) => {
+    jsc.assertForall(jsc.nat(1000000), jsc.number(0, 60000), (mileage, value) => {
       return libVehicleValue.mileageDepreciation(mileage, value) <= value;
     });
   });
 
   test('never removes more than 30% of the car\'s value', () => {
-    jsc.assertForall(jsc.nat(1000000), jsc.nat(60000), (mileage, value) => {
+    jsc.assertForall(jsc.nat(1000000), jsc.number(0, 60000), (mileage, value) => {
       return libVehicleValue.mileageDepreciation(mileage, value) >= value * 0.7;
     });
   });
@@ -108,7 +108,7 @@ describe('ownersPenalty', () => {
   });
 
   test('only ever returns the original value or 75% of the original value', () => {
-    jsc.assertForall(jsc.nat, jsc.nat(60000), (owners, value) => {
+    jsc.assertForall(jsc.nat, jsc.number(0, 60000), (owners, value) => {
       const newValue = libVehicleValue.ownersPenalty(owners, value);
       return newValue === value || newValue === value * 0.75;
     });
@@ -127,7 +127,7 @@ describe('ownersBonus', () => {
   });
 
   test('only ever returns the original value or 110% of the original value', () => {
-    jsc.assertForall(jsc.nat, jsc.nat(60000), (owners, value) => {
+    jsc.assertForall(jsc.nat, jsc.number(0, 60000), (owners, value) => {
       const newValue = libVehicleValue.ownersBonus(owners, value);
       return newValue === value || newValue === value * 1.1;
     });
@@ -152,19 +152,19 @@ describe('collisionsPenalty', () => {
   });
 
   test('always returns a positive value', () => {
-    jsc.assertForall(jsc.nat, jsc.nat(60000), (collisions, value) => {
+    jsc.assertForall(jsc.nat, jsc.number(0, 60000), (collisions, value) => {
       return libVehicleValue.collisionsPenalty(collisions, value) >= 0;
     });
   });
 
   test('never returns more than the original value', () => {
-    jsc.assertForall(jsc.nat, jsc.nat(60000), (collisions, value) => {
+    jsc.assertForall(jsc.nat, jsc.number(0, 60000), (collisions, value) => {
       return libVehicleValue.collisionsPenalty(collisions, value) <= value;
     });
   });
 
   test('never removes more than 10% of the car\'s value', () => {
-    jsc.assertForall(jsc.nat, jsc.nat(60000), (collisions, value) => {
+    jsc.assertForall(jsc.nat, jsc.number(0, 60000), (collisions, value) => {
       // Floating point arithmetic is "fun"
       return (value * 0.9) - libVehicleValue.collisionsPenalty(collisions, value) < 0.00001;
     });
@@ -223,7 +223,7 @@ describe('calcValue', () => {
 
   test('always returns a positive number', () => {
     jsc.assertForall(
-      jsc.nat, jsc.nat(300000), jsc.nat, jsc.nat, jsc.nat(60000),
+      jsc.nat, jsc.nat(300000), jsc.nat, jsc.nat, jsc.number(0, 60000),
       (age, mileage, owners, collisions, originalValue) => {
         const value = libVehicleValue.calcValue(
           originalValue, {age, mileage, owners, collisions}
@@ -235,7 +235,7 @@ describe('calcValue', () => {
 
   test('never returns more than the original value + owner bonus', () => {
     jsc.assertForall(
-      jsc.nat, jsc.nat(300000), jsc.nat, jsc.nat, jsc.nat(60000),
+      jsc.nat, jsc.nat(300000), jsc.nat, jsc.nat, jsc.number(0, 60000),
       (age, mileage, owners, collisions, originalValue) => {
         const value = libVehicleValue.calcValue(
           originalValue, {age, mileage, owners, collisions}
@@ -247,7 +247,7 @@ describe('calcValue', () => {
 
   test('never deducts more than the maximum penalty + depreciation', () => {
     jsc.assertForall(
-      jsc.nat, jsc.nat(300000), jsc.nat, jsc.nat, jsc.nat(60000),
+      jsc.nat, jsc.nat(300000), jsc.nat, jsc.nat, jsc.number(0, 60000),
       (age, mileage, owners, collisions, originalValue) => {
         const value = libVehicleValue.calcValue(
           originalValue, {age, mileage, owners, collisions}
