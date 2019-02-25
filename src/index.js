@@ -44,6 +44,7 @@ app.get('/value', async (req, res) => {
     if (models.indexOf(validation.value.model) === -1) {
       res.statusCode = 404;
       res.send({ error: 'Vehicle model not found' });
+      return;
     }
 
     const { basePrice, age, mileage, owners, collisions } = validation.value;
