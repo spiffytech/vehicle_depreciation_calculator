@@ -9,7 +9,7 @@ describe('getModelsForMake', () => {
       { NHTSA_URL: 'http://example.com' },
     );
     expect(
-      mock.mock.calls[0][0]
+      /** @type {any[]} */(mock.mock.calls[0])[0]
     ).toBe('http://example.com/vehicles/getmodelsformake/honda?format=json');
   });
 
