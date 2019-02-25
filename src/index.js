@@ -14,6 +14,8 @@ app.get('/value', async (req, res) => {
       make: Joi.string().required(),
       model: Joi.string().required(),
 
+      basePrice: Joi.number().required(),
+
       age: Joi.number().integer().min(0).required(),
       mileage: Joi.number().min(0),
       owners: Joi.number().integer().required(),
@@ -23,6 +25,7 @@ app.get('/value', async (req, res) => {
       {
         make: req.query.make,
         model: req.query.model,
+        basePrice: req.query.basePrice,
         age: req.query.age,
         mileage: req.query.mileage,
         owners: req.query.owners,
@@ -45,8 +48,8 @@ app.get('/value', async (req, res) => {
       res.send({error: 'Vehicle model not found'});
     }
 
-    const {age, mileage, owners, collisions} = validation.value;
-    const value = libVehicleValue.calcValue(10000, {age, mileage, owners, collisions})
+    const {basePrice, age, mileage, owners, collisions} = validation.value;
+    const value = libVehicleValue.calcValue(basePrice, {age, mileage, owners, collisions})
 
     res.send({value});
   } catch (ex) {
