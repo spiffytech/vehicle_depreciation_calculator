@@ -1,7 +1,7 @@
 const nhtsa = require('./nhtsa');
 
 describe('getModelsForMake', () => {
-  test('calls axios with the right URL', async () => {
+  test.concurrent('calls axios with the right URL', async () => {
     const mock = jest.fn(() => ({ data: { Results: [{Model_Name: 'SUPERHAWK'}] } }));
     await nhtsa.getModelsForMake(
       'honda',
@@ -13,7 +13,7 @@ describe('getModelsForMake', () => {
     ).toBe('http://example.com/vehicles/getmodelsformake/honda?format=json');
   });
 
-  test('returns names from the API response array', async () => {
+  test.concurrent('returns names from the API response array', async () => {
     const mock = jest.fn(() => ({
       data: {
         Results: [
@@ -47,14 +47,14 @@ describe('getModelsForMake', () => {
     expect(models).toEqual(['SUPERHAWK', 'CB600F', 'NIGHTHAWK 750']);
   });
 
-  test('throws an exception when querying an invalid vehicle make', async () => {
+  test.concurrent('throws an exception when querying an invalid vehicle make', async () => {
     const mock = jest.fn(() => ({data: {Results: []}}));
     return expect(
       nhtsa.getModelsForMake('hondaaaaaa', {get: mock})
     ).rejects.toThrow();
   });
 
-  test('throws errors that include an error code', async () => {
+  test.concurrent('throws errors that include an error code', async () => {
     const mock = jest.fn(() => ({data: {Results: []}}));
     try {
       await nhtsa.getModelsForMake('hondaaaaa', {get: mock});
