@@ -99,3 +99,54 @@ describe('collisionsPenalty', () => {
       toBe(originalValue - (originalValue * (.02 * 5)));
   });
 });
+
+describe('calcValue', () => {
+  test('returns the original value if the vehicle is brand new, first owner', () => {
+    const originalValue = 10000;
+    const actualValue = libVehicleValue.calcValue(
+      originalValue, 
+      {age: 0, mileage: 0, owners: 1, collisions: 0},
+    );
+
+    expect(actualValue).toBe(originalValue);
+  });
+
+  test('issues the vehicle a bonus if it\'s had no owners', () => {
+    const originalValue = 10000;
+    const actualValue = libVehicleValue.calcValue(
+      originalValue, 
+      {age: 0, mileage: 0, owners: 0, collisions: 0},
+    );
+
+    expect(actualValue).toBe(11000);
+  });
+
+  test('ignores mileage and collisions if they aren\'t specified', () => {
+    const originalValue = 10000;
+    const actualValue = libVehicleValue.calcValue(
+      originalValue, 
+      {age: 0, owners: 1},
+    );
+
+    expect(actualValue).toBe(originalValue);
+  });
+
+  test('applies calculations for all factors', () => {
+    const age = 24;
+    const mileage = 65000;
+    const owners = 2;
+    const collisions = 2;
+    const originalValue = 10000;
+    const expectedValue =
+      originalValue * 
+      (1 - (.005 * age)) *
+      (1 - ((mileage / 1000) * .002)) *
+      (1 - .25) *  // owners
+      (1 - (collisions * .02));
+
+    expect(libVehicleValue.calcValue(
+      originalValue,
+      {age, mileage, owners, collisions}, 
+    )).toBe(expectedValue);
+  });
+})

@@ -3,6 +3,7 @@ const Joi = require('joi');
 
 const config = require('./lib/config');
 const nhtsa = require('./lib/nhtsa');
+const libVehicleValue = require('./lib/vehicleValue');
 
 const app = express();
 const port = parseInt(config.EXPRESS_PORT);
@@ -12,25 +13,42 @@ app.get('/value', async (req, res) => {
     const schema = Joi.object().keys({
       make: Joi.string().required(),
       model: Joi.string().required(),
+
+      age: Joi.number().integer().min(0).required(),
+      mileage: Joi.number().min(0),
+      owners: Joi.number().integer().required(),
+      collisions: Joi.number().integer(),
     });
     const validation = Joi.validate(
       {
         make: req.query.make,
         model: req.query.model,
+        age: req.query.age,
+        mileage: req.query.mileage,
+        owners: req.query.owners,
+        collisions: req.query.collisions,
       },
       schema,
     );
 
+    console.log(validation.value);
+
     if (validation.error) {
       res.statusCode = 400;
-      res.send({error: 'Invalid parameters'});
+      res.send({error: validation.error.details.map((detail) => detail.message)});
       return;
     }
 
     const models = await nhtsa.getModelsForMake(validation.value.make);
-    console.log(models);
+    if (models.indexOf(validation.value.model) === -1) {
+      res.statusCode = 404;
+      res.send({error: 'Vehicle model not found'});
+    }
 
-    res.send('Hello World!')
+    const {age, mileage, owners, collisions} = validation.value;
+    const value = libVehicleValue.calcValue(10000, {age, mileage, owners, collisions})
+
+    res.send({value});
   } catch (ex) {
     if (ex.code === 404) {
       res.statusCode = 404;

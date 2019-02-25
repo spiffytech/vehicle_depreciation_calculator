@@ -71,3 +71,20 @@ function collisionsPenalty(collisions, value) {
   return value - (value * penalty);
 }
 module.exports.collisionsPenalty = collisionsPenalty;
+
+/**
+ * Calculates the vehicle's total value based on a number of factors
+ * @param {number} value 
+ * @param {{age: number, mileage?: number, owners: number, collisions?: number}} param1 
+ */
+function calcValue(value, {age, mileage, owners, collisions}) {
+  const ageDepreciated = ageDepreciation(age, value);
+  const mileageDepreciated =
+    mileage ? milageageDepreciation(mileage, ageDepreciated) : ageDepreciated;
+  const ownersPenalized = ownersPenalty(owners, mileageDepreciated);
+  const collisionsPenalized =
+    collisions ? collisionsPenalty(collisions, ownersPenalized) : ownersPenalized;
+  const ownersBonused = ownersBonus(owners, collisionsPenalized);
+  return ownersBonused;
+}
+module.exports.calcValue = calcValue;

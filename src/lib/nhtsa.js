@@ -15,6 +15,7 @@ const config = require('./config');
  * @param {*} fetcher an HTTP fetching library conforming to the Axios API
  * @param {{NHTSA_URL: string}} config An object containing config values such
  * as the NHTSA API base URL
+ * @returns {Promise<string[]>}
  */
 async function getModelsForMake(make, fetcher = axios, { NHTSA_URL } = config) {
   const response = await fetcher.get(urlJoin(
@@ -24,11 +25,11 @@ async function getModelsForMake(make, fetcher = axios, { NHTSA_URL } = config) {
 
   // Rather than 404ing on unknown makes, the API returns an empty array
   if (response.data.Results.length === 0) {
-    const err = new Error('Invalid vehicle make');
+    const err = /** @type {Error & {code: number}} */(new Error('Invalid vehicle make'));
     err.code = 404;
     throw err;
   }
 
-  return response.data.Results.map((make) => make.Model_Name);
+  return response.data.Results.map((/** @type any */make) => make.Model_Name);
 }
 module.exports.getModelsForMake = getModelsForMake;
