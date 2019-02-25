@@ -26,13 +26,13 @@ module.exports.ageDepreciation = ageDepreciation;
  * @param {number} mileage The number of miles on the vehicle's odometer
  * @param {number} value The unmodified value of the vehicle
  */
-function milageageDepreciation(mileage, value) {
+function mileageDepreciation(mileage, value) {
   const applicableMileage = Math.min(mileage, config.MAX_DEPRECIATION_MILEAGE);
   const depreciationMultiplier =
     parseFloat(config.MILEAGE_DEPRECIATION_MULTIPLIER) * Math.floor(applicableMileage / 1000);
   return value - (value * depreciationMultiplier);
 }
-module.exports.milageageDepreciation = milageageDepreciation;
+module.exports.mileageDepreciation = mileageDepreciation;
 
 /**
  * Given the number of previous owners and the vehicle's current value, penalize
@@ -46,7 +46,7 @@ function ownersPenalty(owners, value) {
   }
   return value;
 }
-module.exports.ownnersPenalty = ownersPenalty;
+module.exports.ownersPenalty = ownersPenalty;
 
 /**
  * If the vehicle has had no owners, reward it with bonus value. This should be
@@ -80,7 +80,7 @@ module.exports.collisionsPenalty = collisionsPenalty;
 function calcValue(value, { age, mileage, owners, collisions }) {
   const ageDepreciated = ageDepreciation(age, value);
   const mileageDepreciated =
-    mileage ? milageageDepreciation(mileage, ageDepreciated) : ageDepreciated;
+    mileage ? mileageDepreciation(mileage, ageDepreciated) : ageDepreciated;
   const ownersPenalized = ownersPenalty(owners, mileageDepreciated);
   const collisionsPenalized =
     collisions ? collisionsPenalty(collisions, ownersPenalized) : ownersPenalized;

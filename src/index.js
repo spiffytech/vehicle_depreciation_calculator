@@ -36,28 +36,28 @@ app.get('/value', async (req, res) => {
 
     if (validation.error) {
       res.statusCode = 400;
-      res.send({error: validation.error.details.map((detail) => detail.message)});
+      res.send({ error: validation.error.details.map((detail) => detail.message) });
       return;
     }
 
     const models = await nhtsa.getModelsForMake(validation.value.make);
     if (models.indexOf(validation.value.model) === -1) {
       res.statusCode = 404;
-      res.send({error: 'Vehicle model not found'});
+      res.send({ error: 'Vehicle model not found' });
     }
 
-    const {basePrice, age, mileage, owners, collisions} = validation.value;
-    const value = libVehicleValue.calcValue(basePrice, {age, mileage, owners, collisions});
+    const { basePrice, age, mileage, owners, collisions } = validation.value;
+    const value = libVehicleValue.calcValue(basePrice, { age, mileage, owners, collisions });
 
-    res.send({value});
+    res.send({ value });
   } catch (ex) {
     if (ex.code === 404) {
       res.statusCode = 404;
-      res.send({error: 'Vehicle make not found'});
+      res.send({ error: 'Vehicle make not found' });
       return;
     } else {
       res.statusCode = 500;
-      res.send({error: 'An unknown error occurred'});
+      res.send({ error: 'An unknown error occurred' });
       return;
     }
   }

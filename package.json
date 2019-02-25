@@ -28,6 +28,7 @@
     "eslint-plugin-jest": "^22.3.0",
     "eslint-plugin-prettier": "^3.0.1",
     "jest": "^24.1.0",
+    "jsverify": "^0.8.4",
     "nodemon": "^1.18.10",
     "prettier": "^1.16.4",
     "ts-jest": "^24.0.0",
