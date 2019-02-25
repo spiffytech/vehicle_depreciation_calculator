@@ -57,3 +57,45 @@ describe('mileageDepreciation', () => {
     expect(depreciatedValue).toBe(expectedValue)
   });
 });
+
+describe('ownersPenalty', () => {
+  test('doesn\'t penalize if the vehicle has had < 2 owners', () => {
+    const originalValue = 1;
+    expect(libVehicleValue.ownnersPenalty(1, originalValue)).toBe(originalValue);
+  });
+
+  test('penalizes the value if the vehicle has had >= 2 owners', () => {
+    const originalValue = 1;
+    expect(libVehicleValue.ownnersPenalty(2, originalValue)).toBe(0.75);
+  });
+});
+
+describe('ownersBonus', () => {
+  test('issues a bonus if the vehicle has had no owners', () => {
+    const originalValue = 1;
+    expect(libVehicleValue.ownersBonus(0, originalValue)).toBe(1.10);
+  });
+
+  test('does nothing f the vehicle has had any owners', () => {
+    const originalValue = 1;
+    expect(libVehicleValue.ownersBonus(1, originalValue)).toBe(originalValue);
+  });
+});
+
+describe('collisionsPenalty', () => {
+  test('applies no penalty if there hae been no collisions', () => {
+    const originalValue = 1;
+    expect(libVehicleValue.collisionsPenalty(0, originalValue)).toBe(originalValue);
+  });
+
+  test('applies a 2% penalty if the vehicle has been in one collision', () => {
+    const originalValue = 1;
+    expect(libVehicleValue.collisionsPenalty(1, originalValue)).toBe(0.98);
+  });
+
+  test('only applies up to 5 collisions', () => {
+    const originalValue = 1;
+    expect(libVehicleValue.collisionsPenalty(6, originalValue)).
+      toBe(originalValue - (originalValue * (.02 * 5)));
+  });
+});

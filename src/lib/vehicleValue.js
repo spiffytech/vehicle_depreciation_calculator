@@ -33,3 +33,41 @@ function milageageDepreciation(mileage, value) {
   return value - (value * depreciationMultiplier);
 }
 module.exports.milageageDepreciation = milageageDepreciation;
+
+/**
+ * Given the number of previous owners and the vehicle's current value, penalize
+ * the value if the vehicle has had "too many" owners
+ * @param {number} owners The number of owners the vehicle has had
+ * @param {number} value The current value of the vehicle
+ */
+function ownersPenalty(owners, value) {
+  if (owners >= parseInt(config.OWNERS_PENALTY_THRESHOLD)) {
+    return value * (1 - config.OWNERS_PENALTY_AMOUNT);
+  }
+  return value;
+}
+module.exports.ownnersPenalty = ownersPenalty
+
+/**
+ * If the vehicle has had no owners, reward it with bonus value. This should be
+ * applied after all other depreciation calculations.
+ * @param {number} owners The number of owners the vehicle has had
+ * @param {number} value  The current value of the vehicle
+ */
+function ownersBonus(owners, value) {
+  if (owners === 0) return value * (1 + parseFloat(config.OWNERS_BONUS_AMOUNT));
+  return value;
+}
+module.exports.ownersBonus = ownersBonus;
+
+/**
+ * Penalizes the vehicle for being in collisions
+ * @param {number} collisions How many collisions the vehicle has had
+ * @param {number} value The current value of the vehicle
+ */
+function collisionsPenalty(collisions, value) {
+  const applicableCollisions = Math.min(collisions, parseInt(config.MAX_COLLISIONS)); 
+  const penalty = applicableCollisions * parseFloat(config.COLLISIONS_PENALTY);
+  return value - (value * penalty);
+}
+module.exports.collisionsPenalty = collisionsPenalty;
