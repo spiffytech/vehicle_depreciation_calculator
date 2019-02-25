@@ -11,8 +11,8 @@ const port = parseInt(config.EXPRESS_PORT);
 app.get('/value', async (req, res) => {
   try {
     const schema = Joi.object().keys({
-      make: Joi.string().required(),
-      model: Joi.string().required(),
+      make: Joi.string().regex(/^[a-zA-Z0-9 ]+$/).required(),
+      model: Joi.string().regex(/^[a-zA-Z0-9 ]+$/).required(),
 
       basePrice: Joi.number().required(),
 
