@@ -8,6 +8,10 @@ const libVehicleValue = require('./lib/vehicleValue');
 const app = express();
 const port = parseInt(config.EXPRESS_PORT);
 
+/**
+ * Given details about a vehicle's history, determine the depreciated value of
+ * the vehicle
+ */
 app.get('/value', async (req, res) => {
   try {
     const schema = Joi.object().keys({

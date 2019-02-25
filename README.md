@@ -1,5 +1,10 @@
 This is my sample project for the Global Bankers engineering position.
 
+Given details about a vehicle's history, return the depreciated value of the vehicle.
+
+# Configuring
+Configuration happens via environment variables. See `src/lib/config.js` for default configuration values.
+
 # Running
 
 `npm start`
