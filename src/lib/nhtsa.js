@@ -30,6 +30,6 @@ async function getModelsForMake(make, fetcher = axios, { NHTSA_URL } = config) {
     throw err;
   }
 
-  return response.data.Results.map((/** @type any */make) => make.Model_Name);
+  return response.data.Results.map((/** @type any */make) => make.Model_Name.toLowerCase());
 }
 module.exports.getModelsForMake = getModelsForMake;

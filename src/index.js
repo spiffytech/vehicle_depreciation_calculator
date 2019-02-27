@@ -9,14 +9,14 @@ const app = express();
 const port = parseInt(config.EXPRESS_PORT);
 
 /**
- * Given details about a vehicle's history, determine the depreciated value of
- * the vehicle
+ * Given details about a vehicle's history, determine the depreciated value
+ * of the vehicle
  */
 app.get('/value', async (req, res) => {
   try {
     const schema = Joi.object().keys({
-      make: Joi.string().regex(/^[a-zA-Z0-9 ]+$/).required(),
-      model: Joi.string().regex(/^[a-zA-Z0-9 ]+$/).required(),
+      make: Joi.string().regex(/^[a-zA-Z0-9 ]+$/).lowercase().required(),
+      model: Joi.string().regex(/^[a-zA-Z0-9 ]+$/).lowercase().required(),
 
       basePrice: Joi.number().required(),
 
