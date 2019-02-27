@@ -25,18 +25,7 @@ app.get('/value', async (req, res) => {
       owners: Joi.number().min(0).integer().required(),
       collisions: Joi.number().min(0).integer(),
     });
-    const validation = Joi.validate(
-      {
-        make: req.query.make,
-        model: req.query.model,
-        basePrice: req.query.basePrice,
-        age: req.query.age,
-        mileage: req.query.mileage,
-        owners: req.query.owners,
-        collisions: req.query.collisions,
-      },
-      schema,
-    );
+    const validation = Joi.validate(req.query, schema);
 
     if (validation.error) {
       res.statusCode = 400;
