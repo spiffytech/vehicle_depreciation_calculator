@@ -18,12 +18,12 @@ app.get('/value', async (req, res) => {
       make: Joi.string().regex(/^[a-zA-Z0-9 ]+$/).lowercase().required(),
       model: Joi.string().regex(/^[a-zA-Z0-9 ]+$/).lowercase().required(),
 
-      basePrice: Joi.number().required(),
+      basePrice: Joi.number().min(0).required(),
 
       age: Joi.number().integer().min(0).required(),
       mileage: Joi.number().min(0),
-      owners: Joi.number().integer().required(),
-      collisions: Joi.number().integer(),
+      owners: Joi.number().min(0).integer().required(),
+      collisions: Joi.number().min(0).integer(),
     });
     const validation = Joi.validate(
       {
