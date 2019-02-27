@@ -41,7 +41,10 @@ app.get('/value', async (req, res) => {
     }
 
     const { basePrice, age, mileage, owners, collisions } = validation.value;
-    const value = libVehicleValue.calcValue(basePrice, { age, mileage, owners, collisions });
+    const value = libVehicleValue.calcValue(
+      basePrice,
+      { age, mileage, owners, collisions }
+    );
 
     res.send({ value });
   } catch (ex) {
