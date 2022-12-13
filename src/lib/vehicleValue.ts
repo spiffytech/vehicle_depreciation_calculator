@@ -101,5 +101,7 @@ export const calcValue = ({
 
   value = ownersBonus(owners, value);
 
-  return value;
+  // Round to two decimal places. All the multiplication can give us fractional
+  // cents.
+  return Math.round(value * 100) / 100;
 };
