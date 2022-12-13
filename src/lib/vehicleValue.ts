@@ -1,18 +1,18 @@
-import config from './config';
-
-import { SearchInput } from './nhtsa';
-
 /**
  * This module contains functions for calculating a vehicle's age based on
  * various properties of the vehicle
  */
 
+import config from './config';
+
+import { SearchInput } from './nhtsa';
+
 /**
  * Given the current value of the vehicle and its age, return a new depreciated
  * value based on the age. Depreciation is only applied up to 120 months.
- * @param {number} age In months
- * @param {number} value The unmodified value of the vehicle, to which the age
- * muliplier will be applied
+ * @param age In months
+ * @param value The unmodified value of the vehicle, to which the age muliplier
+ * will be applied
  */
 export const ageDepreciation = (age: SearchInput['age'], value: number) => {
   const applicableMonths = Math.min(age, config.maxDepreciationAge);
@@ -22,9 +22,9 @@ export const ageDepreciation = (age: SearchInput['age'], value: number) => {
 
 /**
  * Given the vehicle's value and mileage, returns a mileage-adjusted value. Only
- * consuders the first 150000 miles on the odometer.
- * @param {number} mileage The number of miles on the vehicle's odometer
- * @param {number} value The unmodified value of the vehicle
+ * considers the first 150,000 miles on the odometer.
+ * @param mileage The number of miles on the vehicle's odometer
+ * @param value The unmodified value of the vehicle
  */
 export const mileageDepreciation = (
   mileage: NonNullable<SearchInput['mileage']>,
@@ -32,15 +32,16 @@ export const mileageDepreciation = (
 ) => {
   const applicableMileage = Math.min(mileage, config.maxDepreciationMileage);
   const depreciationMultiplier =
-    config.mileageDepreciationMultiplier * Math.floor(applicableMileage / 1000);
+    config.mileageDepreciationMultiplier *
+    Math.floor(applicableMileage / 1_000);
   return value - value * depreciationMultiplier;
 };
 
 /**
  * Given the number of previous owners and the vehicle's current value, penalize
  * the value if the vehicle has had "too many" owners
- * @param {number} owners The number of owners the vehicle has had
- * @param {number} value The current value of the vehicle
+ * @param owners The number of owners the vehicle has had
+ * @param value The current value of the vehicle
  */
 export const ownersPenalty = (owners: SearchInput['owners'], value: number) => {
   if (owners >= config.ownersPenaltyThreshold) {
@@ -52,8 +53,8 @@ export const ownersPenalty = (owners: SearchInput['owners'], value: number) => {
 /**
  * If the vehicle has had no owners, reward it with bonus value. This should be
  * applied after all other depreciation calculations.
- * @param {number} owners The number of owners the vehicle has had
- * @param {number} value  The current value of the vehicle
+ * @param owners The number of owners the vehicle has had
+ * @param value  The current value of the vehicle
  */
 export const ownersBonus = (owners: SearchInput['owners'], value: number) => {
   if (owners === 0) return value * (1 + config.ownersBonusAmount);
@@ -62,8 +63,8 @@ export const ownersBonus = (owners: SearchInput['owners'], value: number) => {
 
 /**
  * Penalizes the vehicle for being in collisions
- * @param {number} collisions How many collisions the vehicle has had
- * @param {number} value The current value of the vehicle
+ * @param collisions How many collisions the vehicle has had
+ * @param value The current value of the vehicle
  */
 export const collisionsPenalty = (
   collisions: NonNullable<SearchInput['collisions']>,
@@ -76,8 +77,7 @@ export const collisionsPenalty = (
 
 /**
  * Calculates the vehicle's total value based on a number of factors
- * @param {number} basePrice
- * @param {{age: number, mileage?: number, owners: number, collisions?: number}} param1
+ * @param searchInput Details about the car you want to appraise
  */
 export const calcValue = ({
   basePrice,

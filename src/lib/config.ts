@@ -18,7 +18,7 @@ nconf.env({ parsedValues: true }).defaults({
   nhtsaUrl: 'https://vpic.nhtsa.dot.gov/api',
   maxDepreciationAge: 120,
   ageDepreciationMultiplier: 0.005,
-  maxDepreciationMileage: 150000,
+  maxDepreciationMileage: 150_000,
   mileageDepreciationMultiplier: 0.002,
   ownersPenaltyThreshold: 2,
   ownersPenaltyAmount: 0.25,

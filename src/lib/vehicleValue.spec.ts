@@ -16,7 +16,7 @@ describe('ageDepreciation', () => {
   });
 
   test('depreciates by a multiple, not a constant value', () => {
-    const originalValue = 10000;
+    const originalValue = 10_000;
     const depreciatedValue = libVehicleValue.ageDepreciation(1, originalValue);
     expect(depreciatedValue).toBe(originalValue - originalValue * 0.005);
   });
@@ -34,7 +34,7 @@ describe('ageDepreciation', () => {
     fc.assert(
       fc.property(
         fc.nat(300),
-        fc.float({ min: 0, max: 60000, noNaN: true }),
+        fc.float({ min: 0, max: 60_000, noNaN: true }),
         (age, value) => {
           return libVehicleValue.ageDepreciation(age, value) >= 0;
         },
@@ -46,7 +46,7 @@ describe('ageDepreciation', () => {
     fc.assert(
       fc.property(
         fc.nat(300),
-        fc.float({ min: 0, max: 60000, noNaN: true }),
+        fc.float({ min: 0, max: 60_000, noNaN: true }),
         (age, value) => {
           return libVehicleValue.ageDepreciation(age, value) <= value;
         },
@@ -58,7 +58,7 @@ describe('ageDepreciation', () => {
     fc.assert(
       fc.property(
         fc.nat(300),
-        fc.float({ min: 0, max: 60000, noNaN: true }),
+        fc.float({ min: 0, max: 60_000, noNaN: true }),
         (age, value) => {
           return libVehicleValue.ageDepreciation(age, value) >= value * 0.4;
         },
@@ -80,14 +80,14 @@ describe('mileageDepreciation', () => {
   test('depreciates by .002 after 1000 miles', () => {
     const originalValue = 1;
     const depreciatedValue = libVehicleValue.mileageDepreciation(
-      1000,
+      1_000,
       originalValue,
     );
     expect(depreciatedValue).toBe(0.998);
   });
 
   test('depreciates by a multiple, not a constant value', () => {
-    const originalValue = 10000;
+    const originalValue = 10_000;
     const depreciatedValue = libVehicleValue.mileageDepreciation(
       1000,
       originalValue,
@@ -95,10 +95,10 @@ describe('mileageDepreciation', () => {
     expect(depreciatedValue).toBe(originalValue - originalValue * 0.002);
   });
 
-  test('calculates a 150k-mile depreciation for mileages > 150k miles', () => {
+  test('calculates a 150k-mile depreciation for mileages exceeding 150k miles', () => {
     const originalValue = 1;
     const depreciatedValue = libVehicleValue.mileageDepreciation(
-      151000,
+      151_000,
       originalValue,
     );
     const depreciationAmount = 0.002 * 150;
@@ -109,8 +109,8 @@ describe('mileageDepreciation', () => {
   test('always returns a positive value', () => {
     fc.assert(
       fc.property(
-        fc.nat(1000000),
-        fc.float({ min: 0, max: 60000, noNaN: true }),
+        fc.nat(1_000_000),
+        fc.float({ min: 0, max: 60_000, noNaN: true }),
         (mileage, value) => {
           return libVehicleValue.mileageDepreciation(mileage, value) >= 0;
         },
@@ -121,8 +121,8 @@ describe('mileageDepreciation', () => {
   test('never returns more than the original value', () => {
     fc.assert(
       fc.property(
-        fc.nat(1000000),
-        fc.float({ min: 0, max: 60000, noNaN: true }),
+        fc.nat(1_000_000),
+        fc.float({ min: 0, max: 60_000, noNaN: true }),
         (mileage, value) => {
           return libVehicleValue.mileageDepreciation(mileage, value) <= value;
         },
@@ -133,8 +133,8 @@ describe('mileageDepreciation', () => {
   test("never removes more than 30% of the car's value", () => {
     fc.assert(
       fc.property(
-        fc.nat(1000000),
-        fc.float({ min: 0, max: 60000, noNaN: true }),
+        fc.nat(1_000_000),
+        fc.float({ min: 0, max: 60_000, noNaN: true }),
         (mileage, value) => {
           return (
             libVehicleValue.mileageDepreciation(mileage, value) >= value * 0.7
@@ -160,7 +160,7 @@ describe('ownersPenalty', () => {
     fc.assert(
       fc.property(
         fc.nat(),
-        fc.float({ min: 0, max: 60000, noNaN: true }),
+        fc.float({ min: 0, max: 60_000, noNaN: true }),
         (owners, value) => {
           const newValue = libVehicleValue.ownersPenalty(owners, value);
           return newValue === value || newValue === value * 0.75;
@@ -185,7 +185,7 @@ describe('ownersBonus', () => {
     fc.assert(
       fc.property(
         fc.nat(),
-        fc.float({ min: 0, max: 60000, noNaN: true }),
+        fc.float({ min: 0, max: 60_000, noNaN: true }),
         (owners, value) => {
           const newValue = libVehicleValue.ownersBonus(owners, value);
           return newValue === value || newValue === value * 1.1;
@@ -219,7 +219,7 @@ describe('collisionsPenalty', () => {
     fc.assert(
       fc.property(
         fc.nat(),
-        fc.float({ min: 0, max: 60000, noNaN: true }),
+        fc.float({ min: 0, max: 60_000, noNaN: true }),
         (collisions, value) => {
           return libVehicleValue.collisionsPenalty(collisions, value) >= 0;
         },
@@ -231,7 +231,7 @@ describe('collisionsPenalty', () => {
     fc.assert(
       fc.property(
         fc.nat(),
-        fc.float({ min: 0, max: 60000, noNaN: true }),
+        fc.float({ min: 0, max: 60_000, noNaN: true }),
         (collisions, value) => {
           return libVehicleValue.collisionsPenalty(collisions, value) <= value;
         },
@@ -243,7 +243,7 @@ describe('collisionsPenalty', () => {
     fc.assert(
       fc.property(
         fc.nat(),
-        fc.float({ min: 0, max: 60000, noNaN: true }),
+        fc.float({ min: 0, max: 60_000, noNaN: true }),
         (collisions, value) => {
           // Floating point arithmetic is "fun"
           return (
@@ -258,7 +258,7 @@ describe('collisionsPenalty', () => {
 
 describe('calcValue', () => {
   test('returns the original value if the vehicle is brand new, first owner', () => {
-    const basePrice = 10000;
+    const basePrice = 10_000;
     const actualValue = libVehicleValue.calcValue({
       basePrice,
       age: 0,
@@ -271,7 +271,7 @@ describe('calcValue', () => {
   });
 
   test("issues the vehicle a bonus if it's had no owners", () => {
-    const basePrice = 10000;
+    const basePrice = 10_000;
     const actualValue = libVehicleValue.calcValue({
       basePrice,
       age: 0,
@@ -280,11 +280,11 @@ describe('calcValue', () => {
       collisions: 0,
     });
 
-    expect(actualValue).toBe(11000);
+    expect(actualValue).toBe(11_000);
   });
 
   test("ignores mileage and collisions if they aren't specified", () => {
-    const basePrice = 10000;
+    const basePrice = 10_000;
     const actualValue = libVehicleValue.calcValue({
       basePrice,
       age: 0,
@@ -301,7 +301,7 @@ describe('calcValue', () => {
     const mileage = 65000;
     const owners = 2;
     const collisions = 2;
-    const basePrice = 10000;
+    const basePrice = 10_000;
     const expectedValue =
       basePrice *
       (1 - 0.005 * age) *
@@ -325,9 +325,9 @@ describe('calcValue', () => {
       fc.property(
         fc.integer({ min: 1 }),
         fc.nat(),
-        fc.nat(300000),
+        fc.nat(300_000),
         fc.nat(),
-        fc.float({ min: 0, max: 60000, noNaN: true }),
+        fc.float({ min: 0, max: 60_000, noNaN: true }),
         (basePrice, age, mileage, owners, collisions) => {
           const value = libVehicleValue.calcValue({
             basePrice,
@@ -346,10 +346,10 @@ describe('calcValue', () => {
     fc.assert(
       fc.property(
         fc.nat(),
-        fc.nat(300000),
+        fc.nat(300_000),
         fc.nat(),
         fc.nat(),
-        fc.float({ min: 0, max: 60000, noNaN: true }),
+        fc.float({ min: 0, max: 60_000, noNaN: true }),
         (age, mileage, owners, collisions, basePrice) => {
           const value = libVehicleValue.calcValue({
             basePrice,
@@ -368,10 +368,10 @@ describe('calcValue', () => {
     fc.assert(
       fc.property(
         fc.nat(),
-        fc.nat(300000),
+        fc.nat(300_000),
         fc.nat(),
         fc.nat(),
-        fc.float({ min: 0, max: 60000, noNaN: true }),
+        fc.float({ min: 0, max: 60_000, noNaN: true }),
         (age, mileage, owners, collisions, basePrice) => {
           const value = libVehicleValue.calcValue({
             basePrice,

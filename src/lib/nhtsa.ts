@@ -21,10 +21,9 @@ export interface SearchInput {
 /**
  * Retrieves all of the model names for the supplied vehicle make. Throws an
  * exception if the make isn't found in the NHTSA database.
- * @param {string} make The vehicle make to look up in the NHTSA database
- * @param {*} fetcher an HTTP fetching library shaped like the fetch() built-in
- * @param {{NHTSA_URL: string}} config An object containing config values such
- * as the NHTSA API base URL
+ * @param make The vehicle make to look up in the NHTSA database
+ * @param config An object containing config values such as the NHTSA API base
+ * URL
  */
 export const getModelsForMake = async (
   make: SearchInput['make'],
