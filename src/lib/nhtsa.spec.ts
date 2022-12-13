@@ -9,8 +9,8 @@ beforeEach(() => {
 
 describe('getModelsForMake', () => {
   test.concurrent('calls fetch with the right URL', async () => {
-    const fetchMock = jest.fn(async () => ({
-      json: async () => ({
+    const fetchMock = jest.fn(() => ({
+      json: () => ({
         Results: [{ Model_Name: 'SUPERHAWK' }],
       }),
     })) as jest.Mock;
@@ -19,6 +19,7 @@ describe('getModelsForMake', () => {
     await nhtsa.getModelsForMake('honda', {
       nhtsaUrl: 'http://example.com',
     });
+    /* eslint-disable-next-line @typescript-eslint/no-unsafe-member-access */
     expect(fetchMock.mock.calls[0][0]).toBe(
       'http://example.com/vehicles/getmodelsformake/honda?format=json',
     );
@@ -26,7 +27,7 @@ describe('getModelsForMake', () => {
 
   test.concurrent('returns names from the API response array', async () => {
     globalThis.fetch = jest.fn(() => ({
-      json: async () => ({
+      json: () => ({
         Results: [
           // This data is a copy/pasted response from the NHTSA API
           {
@@ -59,7 +60,7 @@ describe('getModelsForMake', () => {
     'throws an exception when querying an invalid vehicle make',
     async () => {
       globalThis.fetch = jest.fn(() => ({
-        json: async () => ({
+        json: () => ({
           Results: [],
         }),
       })) as jest.Mock;
@@ -69,7 +70,7 @@ describe('getModelsForMake', () => {
 
   test.concurrent('throws errors that include an error code', async () => {
     globalThis.fetch = jest.fn(() => ({
-      json: async () => ({ Results: [] }),
+      json: () => ({ Results: [] }),
     })) as jest.Mock;
     try {
       await nhtsa.getModelsForMake('hondaaaaa');
