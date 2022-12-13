@@ -15,9 +15,9 @@ import { SearchInput } from './nhtsa';
  * muliplier will be applied
  */
 export const ageDepreciation = (age: SearchInput['age'], value: number) => {
-  const applicableMonths = Math.min(age, parseInt(config.MAX_DEPRECIATION_AGE));
+  const applicableMonths = Math.min(age, parseInt(config.maxDepreciationAge));
   const multiplier =
-    parseFloat(config.AGE_DEPRECIATION_MULTIPLIER) * applicableMonths;
+    parseFloat(config.ageDepreciationMultiplier) * applicableMonths;
   return value * (1 - multiplier);
 };
 
@@ -31,9 +31,9 @@ export const mileageDepreciation = (
   mileage: NonNullable<SearchInput['mileage']>,
   value: number,
 ) => {
-  const applicableMileage = Math.min(mileage, config.MAX_DEPRECIATION_MILEAGE);
+  const applicableMileage = Math.min(mileage, config.maxDepreciationMileage);
   const depreciationMultiplier =
-    parseFloat(config.MILEAGE_DEPRECIATION_MULTIPLIER) *
+    parseFloat(config.mileageDepreciationMultiplier) *
     Math.floor(applicableMileage / 1000);
   return value - value * depreciationMultiplier;
 };
@@ -45,8 +45,8 @@ export const mileageDepreciation = (
  * @param {number} value The current value of the vehicle
  */
 export const ownersPenalty = (owners: SearchInput['owners'], value: number) => {
-  if (owners >= parseInt(config.OWNERS_PENALTY_THRESHOLD)) {
-    return value * (1 - config.OWNERS_PENALTY_AMOUNT);
+  if (owners >= parseInt(config.ownersPenaltyThreshold)) {
+    return value * (1 - config.ownersPenaltyAmount);
   }
   return value;
 };
@@ -58,7 +58,7 @@ export const ownersPenalty = (owners: SearchInput['owners'], value: number) => {
  * @param {number} value  The current value of the vehicle
  */
 export const ownersBonus = (owners: SearchInput['owners'], value: number) => {
-  if (owners === 0) return value * (1 + parseFloat(config.OWNERS_BONUS_AMOUNT));
+  if (owners === 0) return value * (1 + parseFloat(config.ownersBonusAmount));
   return value;
 };
 
@@ -73,9 +73,9 @@ export const collisionsPenalty = (
 ) => {
   const applicableCollisions = Math.min(
     collisions,
-    parseInt(config.MAX_COLLISIONS),
+    parseInt(config.maxCollisions),
   );
-  const penalty = applicableCollisions * parseFloat(config.COLLISIONS_PENALTY);
+  const penalty = applicableCollisions * parseFloat(config.collisionsPenalty);
   return value - value * penalty;
 };
 

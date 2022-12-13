@@ -8,7 +8,7 @@ import * as libVehicleValue from './lib/vehicleValue.js';
 import type { Context as HonoContext } from 'hono';
 
 const app = new Hono();
-const port = parseInt(config.EXPRESS_PORT);
+const port = parseInt(config.PORT);
 
 import type { SearchInput } from './lib/nhtsa.js';
 

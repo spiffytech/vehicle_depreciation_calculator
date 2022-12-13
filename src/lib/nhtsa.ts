@@ -29,12 +29,12 @@ export interface SearchInput {
  */
 export const getModelsForMake = async (
   make: SearchInput['make'],
-  { NHTSA_URL }: Partial<typeof config> = {},
+  { nhtsaUrl }: Partial<typeof config> = {},
 ) => {
-  NHTSA_URL ??= config.NHTSA_URL;
+  nhtsaUrl ??= config.nhtsaUrl;
 
   const response = await fetch(
-    `${config.NHTSA_URL}/vehicles/getmodelsformake/${encodeURIComponent(
+    `${nhtsaUrl}/vehicles/getmodelsformake/${encodeURIComponent(
       make.toLowerCase(),
     )}?format=json`,
   );

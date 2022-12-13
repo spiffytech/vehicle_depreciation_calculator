@@ -17,7 +17,7 @@ describe('getModelsForMake', () => {
     globalThis.fetch = fetchMock;
 
     await nhtsa.getModelsForMake('honda', {
-      NHTSA_URL: 'http://example.com',
+      nhtsaUrl: 'http://example.com',
     });
     expect(fetchMock.mock.calls[0][0]).toBe(
       'http://example.com/vehicles/getmodelsformake/honda?format=json',

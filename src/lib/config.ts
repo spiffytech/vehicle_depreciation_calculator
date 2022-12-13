@@ -1,17 +1,17 @@
 import nconf from 'nconf';
 
 nconf.env().defaults({
-  EXPRESS_PORT: 3000,
-  NHTSA_URL: 'https://vpic.nhtsa.dot.gov/api',
-  MAX_DEPRECIATION_AGE: 120,
-  AGE_DEPRECIATION_MULTIPLIER: 0.005,
-  MAX_DEPRECIATION_MILEAGE: 150000,
-  MILEAGE_DEPRECIATION_MULTIPLIER: 0.002,
-  OWNERS_PENALTY_THRESHOLD: 2,
-  OWNERS_PENALTY_AMOUNT: 0.25,
-  OWNERS_BONUS_AMOUNT: 0.1,
-  MAX_COLLISIONS: 5,
-  COLLISIONS_PENALTY: 0.02,
+  PORT: 3000,
+  nhtsaUrl: 'https://vpic.nhtsa.dot.gov/api',
+  maxDepreciationAge: 120,
+  ageDepreciationMultiplier: 0.005,
+  maxDepreciationMileage: 150000,
+  mileageDepreciationMultiplier: 0.002,
+  ownersPenaltyThreshold: 2,
+  ownersPenaltyAmount: 0.25,
+  ownersBonusAmount: 0.1,
+  maxCollisions: 5,
+  collisionsPenalty: 0.02,
 });
 
 export default nconf.get();
