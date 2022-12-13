@@ -3,31 +3,28 @@ import fc from 'fast-check';
 import * as libVehicleValue from './vehicleValue';
 
 describe('ageDepreciation', () => {
-  test('returns the original value if the vehicle is new', () => {
-    const originalValue = 1;
-    const depreciatedValue = libVehicleValue.ageDepreciation(0, originalValue);
-    expect(depreciatedValue).toBe(originalValue);
+  test('returns the base price if the vehicle is new', () => {
+    const basePrice = 1;
+    const depreciatedValue = libVehicleValue.ageDepreciation(0, basePrice);
+    expect(depreciatedValue).toBe(basePrice);
   });
 
   test('depreciates by .005 after 1 month', () => {
-    const originalValue = 1;
-    const depreciatedValue = libVehicleValue.ageDepreciation(1, originalValue);
+    const basePrice = 1;
+    const depreciatedValue = libVehicleValue.ageDepreciation(1, basePrice);
     expect(depreciatedValue).toBe(0.995);
   });
 
   test('depreciates by a multiple, not a constant value', () => {
-    const originalValue = 10_000;
-    const depreciatedValue = libVehicleValue.ageDepreciation(1, originalValue);
-    expect(depreciatedValue).toBe(originalValue - originalValue * 0.005);
+    const basePrice = 10_000;
+    const depreciatedValue = libVehicleValue.ageDepreciation(1, basePrice);
+    expect(depreciatedValue).toBe(basePrice - basePrice * 0.005);
   });
 
   test('calculates a 10-year depreciation for ages > 10 years', () => {
-    const originalValue = 1;
-    const depreciatedValue = libVehicleValue.ageDepreciation(
-      121,
-      originalValue,
-    );
-    expect(depreciatedValue).toBe(originalValue - 0.005 * 120);
+    const basePrice = 1;
+    const depreciatedValue = libVehicleValue.ageDepreciation(121, basePrice);
+    expect(depreciatedValue).toBe(basePrice - 0.005 * 120);
   });
 
   test('always returns a positive value', () => {
@@ -42,7 +39,7 @@ describe('ageDepreciation', () => {
     );
   });
 
-  test('never returns more than the original value', () => {
+  test('never returns more than the base price', () => {
     fc.assert(
       fc.property(
         fc.nat(300),
@@ -68,41 +65,38 @@ describe('ageDepreciation', () => {
 });
 
 describe('mileageDepreciation', () => {
-  test('returns the original value if the vehicle has no mileas on it', () => {
-    const originalValue = 1;
-    const depreciatedValue = libVehicleValue.mileageDepreciation(
-      0,
-      originalValue,
-    );
-    expect(depreciatedValue).toBe(originalValue);
+  test('returns the base price if the vehicle has no mileas on it', () => {
+    const basePrice = 1;
+    const depreciatedValue = libVehicleValue.mileageDepreciation(0, basePrice);
+    expect(depreciatedValue).toBe(basePrice);
   });
 
   test('depreciates by .002 after 1000 miles', () => {
-    const originalValue = 1;
+    const basePrice = 1;
     const depreciatedValue = libVehicleValue.mileageDepreciation(
       1_000,
-      originalValue,
+      basePrice,
     );
     expect(depreciatedValue).toBe(0.998);
   });
 
   test('depreciates by a multiple, not a constant value', () => {
-    const originalValue = 10_000;
+    const basePrice = 10_000;
     const depreciatedValue = libVehicleValue.mileageDepreciation(
       1000,
-      originalValue,
+      basePrice,
     );
-    expect(depreciatedValue).toBe(originalValue - originalValue * 0.002);
+    expect(depreciatedValue).toBe(basePrice - basePrice * 0.002);
   });
 
   test('calculates a 150k-mile depreciation for mileages exceeding 150k miles', () => {
-    const originalValue = 1;
+    const basePrice = 1;
     const depreciatedValue = libVehicleValue.mileageDepreciation(
       151_000,
-      originalValue,
+      basePrice,
     );
     const depreciationAmount = 0.002 * 150;
-    const expectedValue = originalValue - originalValue * depreciationAmount;
+    const expectedValue = basePrice - basePrice * depreciationAmount;
     expect(depreciatedValue).toBe(expectedValue);
   });
 
@@ -118,7 +112,7 @@ describe('mileageDepreciation', () => {
     );
   });
 
-  test('never returns more than the original value', () => {
+  test('never returns more than the base price', () => {
     fc.assert(
       fc.property(
         fc.nat(1_000_000),
@@ -147,16 +141,16 @@ describe('mileageDepreciation', () => {
 
 describe('ownersPenalty', () => {
   test("doesn't penalize if the vehicle has had < 2 owners", () => {
-    const originalValue = 1;
-    expect(libVehicleValue.ownersPenalty(1, originalValue)).toBe(originalValue);
+    const basePrice = 1;
+    expect(libVehicleValue.ownersPenalty(1, basePrice)).toBe(basePrice);
   });
 
   test('penalizes the value if the vehicle has had >= 2 owners', () => {
-    const originalValue = 1;
-    expect(libVehicleValue.ownersPenalty(2, originalValue)).toBe(0.75);
+    const basePrice = 1;
+    expect(libVehicleValue.ownersPenalty(2, basePrice)).toBe(0.75);
   });
 
-  test('only ever returns the original value or 75% of the original value', () => {
+  test('only ever returns the base price or 75% of the abose price', () => {
     fc.assert(
       fc.property(
         fc.nat(),
@@ -172,16 +166,16 @@ describe('ownersPenalty', () => {
 
 describe('ownersBonus', () => {
   test('issues a bonus if the vehicle has had no owners', () => {
-    const originalValue = 1;
-    expect(libVehicleValue.ownersBonus(0, originalValue)).toBe(1.1);
+    const basePrice = 1;
+    expect(libVehicleValue.ownersBonus(0, basePrice)).toBe(1.1);
   });
 
   test('does nothing if the vehicle has had any owners', () => {
-    const originalValue = 1;
-    expect(libVehicleValue.ownersBonus(1, originalValue)).toBe(originalValue);
+    const basePrice = 1;
+    expect(libVehicleValue.ownersBonus(1, basePrice)).toBe(basePrice);
   });
 
-  test('only ever returns the original value or 110% of the original value', () => {
+  test('only ever returns the base price or 110% of the base price', () => {
     fc.assert(
       fc.property(
         fc.nat(),
@@ -197,21 +191,19 @@ describe('ownersBonus', () => {
 
 describe('collisionsPenalty', () => {
   test('applies no penalty if there hae been no collisions', () => {
-    const originalValue = 1;
-    expect(libVehicleValue.collisionsPenalty(0, originalValue)).toBe(
-      originalValue,
-    );
+    const basePrice = 1;
+    expect(libVehicleValue.collisionsPenalty(0, basePrice)).toBe(basePrice);
   });
 
   test('applies a 2% penalty if the vehicle has been in one collision', () => {
-    const originalValue = 1;
-    expect(libVehicleValue.collisionsPenalty(1, originalValue)).toBe(0.98);
+    const basePrice = 1;
+    expect(libVehicleValue.collisionsPenalty(1, basePrice)).toBe(0.98);
   });
 
   test('only applies up to 5 collisions', () => {
-    const originalValue = 1;
-    expect(libVehicleValue.collisionsPenalty(6, originalValue)).toBe(
-      originalValue - originalValue * (0.02 * 5),
+    const basePrice = 1;
+    expect(libVehicleValue.collisionsPenalty(6, basePrice)).toBe(
+      basePrice - basePrice * (0.02 * 5),
     );
   });
 
@@ -227,7 +219,7 @@ describe('collisionsPenalty', () => {
     );
   });
 
-  test('never returns more than the original value', () => {
+  test('never returns more than the base price', () => {
     fc.assert(
       fc.property(
         fc.nat(),
@@ -257,7 +249,7 @@ describe('collisionsPenalty', () => {
 });
 
 describe('calcValue', () => {
-  test('returns the original value if the vehicle is brand new, first owner', () => {
+  test('returns the base price if the vehicle is brand new, first owner', () => {
     const basePrice = 10_000;
     const actualValue = libVehicleValue.calcValue({
       basePrice,
@@ -342,7 +334,7 @@ describe('calcValue', () => {
     );
   });
 
-  test('never returns more than the original value + owner bonus', () => {
+  test('never returns more than the base price + owner bonus', () => {
     fc.assert(
       fc.property(
         fc.nat(),

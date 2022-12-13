@@ -28,7 +28,7 @@ describe('getModelsForMake', () => {
     globalThis.fetch = jest.fn(() => ({
       json: async () => ({
         Results: [
-          // Real data from a real API response
+          // This data is a copy/pasted response from the NHTSA API
           {
             Make_ID: 474,
             Make_Name: 'Honda',
