@@ -25,7 +25,6 @@ export interface SearchInput {
  * @param {*} fetcher an HTTP fetching library shaped like the fetch() built-in
  * @param {{NHTSA_URL: string}} config An object containing config values such
  * as the NHTSA API base URL
- * @returns {Promise<string[]>}
  */
 export const getModelsForMake = async (
   make: SearchInput['make'],
