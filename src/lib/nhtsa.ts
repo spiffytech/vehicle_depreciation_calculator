@@ -1,6 +1,6 @@
 /**
- * This library interfaces with the National Highway Traffic Safety
- * Administration API to retrieve vehicle data.
+ * This library retrieves vehicle data from the National Highway Traffic Safety
+ * Administration API.
  */
 
 import config from './config';

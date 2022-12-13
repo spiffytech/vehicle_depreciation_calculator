@@ -1,6 +1,19 @@
 import nconf from 'nconf';
+interface Config {
+  PORT: number;
+  nhtsaUrl: string;
+  maxDepreciationAge: number;
+  ageDepreciationMultiplier: number;
+  maxDepreciationMileage: number;
+  mileageDepreciationMultiplier: number;
+  ownersPenaltyThreshold: number;
+  ownersPenaltyAmount: number;
+  ownersBonusAmount: number;
+  maxCollisions: number;
+  collisionsPenalty: number;
+}
 
-nconf.env().defaults({
+nconf.env({ parsedValues: true }).defaults({
   PORT: 3000,
   nhtsaUrl: 'https://vpic.nhtsa.dot.gov/api',
   maxDepreciationAge: 120,
@@ -12,6 +25,6 @@ nconf.env().defaults({
   ownersBonusAmount: 0.1,
   maxCollisions: 5,
   collisionsPenalty: 0.02,
-});
+} as Config);
 
-export default nconf.get();
+export default nconf.get() as Config;
