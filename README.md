@@ -1,4 +1,8 @@
-Given details about a vehicle's history, return the depreciated value of the vehicle.
+This project was a work sample task requested by a job I interviewed for. I have
+occasionally updated it to reflect changes in my skillset.
+
+Objective: given details about a vehicle's history, return the depreciated value
+of the vehicle.
 
 # Configuring
 Configuration happens via environment variables. See `src/lib/config.js` for default configuration values.
@@ -17,10 +21,11 @@ Configuration happens via environment variables. See `src/lib/config.js` for def
 
 Requires the following parameters:
 
+- basePrice [the project spec suggests this should be optional, but the NHTSA
+  does not support requesting vehicle base prices]
+- age
 - make
 - model
-- basePrice
-- age
 - owners
 
 Optional fields:
@@ -28,7 +33,11 @@ Optional fields:
 - mileage
 - collisions
 
-# Spec
+_Note: the project spec does not indicate where the vehicle MSRP data should
+come from. As the NHTSA does not supply that data, I made elected to have it be
+supplied by the user._
+
+# Original Spec
 
 You are tasked with writing a nodejs REST server which exposes an endpoint for /value
 This endpoint takes in data about a vehicle, then returns the value of a used car.

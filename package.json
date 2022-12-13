@@ -2,6 +2,7 @@
   "name": "sample_project",
   "version": "1.0.0",
   "description": "",
+  "type": "module",
   "main": "src/index.js",
   "scripts": {
     "dev": "./node_modules/.bin/nodemon src/index.js",
@@ -11,27 +12,24 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "axios": "^0.19.0",
-    "express": "^4.16.4",
-    "joi": "^14.3.1",
-    "nconf": "^0.10.0",
-    "url-join": "^4.0.0"
+    "bun-types": "^0.3.0",
+    "fast-check": "^3.3.0",
+    "hono": "^2.6.1",
+    "joi": "^17.7.0",
+    "nconf": "^0.12.0",
+    "zod": "latest"
   },
   "devDependencies": {
-    "@types/axios": "^0.14.0",
-    "@types/express": "^4.16.1",
-    "@types/jest": "^24.0.6",
-    "@types/joi": "^14.3.2",
-    "@types/nconf": "^0.10.0",
-    "@types/url-join": "^4.0.0",
-    "eslint": "^5.14.1",
-    "eslint-plugin-jest": "^22.3.0",
-    "eslint-plugin-prettier": "^3.0.1",
-    "jest": "^24.1.0",
-    "jsverify": "^0.8.4",
-    "nodemon": "^1.18.10",
-    "prettier": "^1.16.4",
-    "ts-jest": "^24.0.0",
-    "typescript": "^3.3.3333"
+    "@types/jest": "^29.2.4",
+    "@types/joi": "^17.2.2",
+    "@types/nconf": "^0.10.3",
+    "eslint": "^8.29.0",
+    "eslint-plugin-jest": "^27.1.6",
+    "eslint-plugin-prettier": "^4.2.1",
+    "jest": "^29.3.1",
+    "nodemon": "^2.0.20",
+    "prettier": "^2.8.1",
+    "ts-jest": "^29.0.3",
+    "typescript": "^4.9.4"
   }
 }
