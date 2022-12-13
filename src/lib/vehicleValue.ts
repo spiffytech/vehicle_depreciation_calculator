@@ -16,8 +16,9 @@ import { SearchInput } from './nhtsa';
  */
 export const ageDepreciation = (age: SearchInput['age'], value: number) => {
   const applicableMonths = Math.min(age, config.maxDepreciationAge);
-  const multiplier = config.ageDepreciationMultiplier * applicableMonths;
-  return value * (1 - multiplier);
+  const depreciationPercent =
+    config.ageDepreciationMultiplier * applicableMonths;
+  return value * (1 - depreciationPercent);
 };
 
 /**
@@ -31,10 +32,10 @@ export const mileageDepreciation = (
   value: number,
 ) => {
   const applicableMileage = Math.min(mileage, config.maxDepreciationMileage);
-  const depreciationMultiplier =
+  const depreciationPercent =
     config.mileageDepreciationMultiplier *
     Math.floor(applicableMileage / 1_000);
-  return value - value * depreciationMultiplier;
+  return value * (1 - depreciationPercent);
 };
 
 /**
@@ -71,8 +72,8 @@ export const collisionsPenalty = (
   value: number,
 ) => {
   const applicableCollisions = Math.min(collisions, config.maxCollisions);
-  const penalty = applicableCollisions * config.collisionsPenalty;
-  return value - value * penalty;
+  const depreciationPercent = applicableCollisions * config.collisionsPenalty;
+  return value * (1 - depreciationPercent);
 };
 
 /**
